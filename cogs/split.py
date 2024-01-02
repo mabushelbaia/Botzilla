@@ -14,11 +14,11 @@ class Team:
 
 class Split(commands.Cog):
 
-    def __init__(self, bot):  
+    def __init__(self, bot):
         self.bot = bot
 
     @discord.slash_command(description="Splits a voice channel into two teams")
-    async def split(self, ctx, channel: discord.VoiceChannel, team1: str, team2: str) -> None:
+    async def split_channel(self, ctx, channel: discord.VoiceChannel, team1: str, team2: str) -> None:
         members = channel.members
         random.shuffle(members)
         team_1 = Team(team1, members[: len(members) // 2])
@@ -40,7 +40,6 @@ class Split(commands.Cog):
             text=f"Requested by {ctx.user}", icon_url=ctx.user.avatar)
         await ctx.response.send_message(embed=embed, view=MyView(team_1, team_2))
 
-
 class MyView(discord.ui.View):
     def __init__(self, team_1, team_2):
         super().__init__()
@@ -50,10 +49,10 @@ class MyView(discord.ui.View):
         self.team2_members = [member for member in team_2.members]
 
     @discord.ui.button(label="Split", row=0, style=discord.ButtonStyle.primary)
-    async def first_button_callback(self, button, interaction):
+    async def first_button_callback(self, button, interaction: discord.Interaction):
         button.disabled = True
-        voice_channel_1 = self.bot.get_channel(1191113463272058880)
-        voice_channel_2 = self.bot.get_channel(1191113512722907267)
+        voice_channel_1 = interaction.guild.get_channel(1191113463272058880)
+        voice_channel_2 = interaction.guild.get_channel(1191113512722907267)
 
         await voice_channel_1.edit(
             name="Team " + self.team1.name, user_limit=len(self.team1.members)
@@ -77,11 +76,11 @@ class MyView(discord.ui.View):
         embed = discord.Embed(title="**Splitted Teams**",
                               color=discord.Color.yellow())
         team1_string = "\n".join(
-            [":small_blue_diamond:  `" + member.name +
+            [":small_blue_diamond: ` - " + member.name +
                 "`" for member in self.team1_members]
         )
         team2_string = "\n".join(
-            [":small_orange_diamond:   `" + member.name +
+            [":small_orange_diamond:   ` - " + member.name +
                 "`" for member in self.team2_members]
         )
         embed.add_field(name=f"**Team {self.team1.name}**", value=team1_string)
@@ -95,5 +94,5 @@ class MyView(discord.ui.View):
         await interaction.response.edit_message(view=None)
 
 
-def setup(bot):  
-    bot.add_cog(Split(bot))  
+def setup(bot):
+    bot.add_cog(Split(bot))

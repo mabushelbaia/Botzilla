@@ -42,5 +42,5 @@ class Flip(commands.Cog):
         await ctx.response.send_message(f"You rolled a **{choice}**")
 
 
-def setup(bot):   #
+def setup(bot): 
     bot.add_cog(Flip(bot)) 

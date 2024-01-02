@@ -13,8 +13,8 @@ pip install -r requirements.txt
 ## Features
 
 - [X] Team Management
-- [ ] Random Generators
-- [ ] Basic Moderation
+- [X] Random Generators
+- [X] Basic Moderation
 
 ## Commands
 - `/split` [channel] [team1] [team2] - Splits the members of the voice channel into two teams

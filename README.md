@@ -1,14 +1,14 @@
-# Botzilla - A Discord bot for my server
+# Botzilla - Discord bot built using [Pycord v2.4](https://pycord.dev/)
 ## Installation
-1. Clone the repository
+**Clone the repository**
 ```bash
 git clone https://github.com/mabushelbaia/Botzilla
 ```
-2. Install dependencies
+**Install dependencies**
 ```bash
 pip install -r requirements.txt
 ```
-3. Create a file called `.env` in the root directory and paste your bot token into it
+**Create a file called `.env` in the root directory and paste your bot token into it**
 
 ## Features
 

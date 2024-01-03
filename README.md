@@ -15,7 +15,7 @@ pip install -r requirements.txt
 - [X] Team Management
 - [X] Random Generators
 - [X] Basic Moderation
-- [x] Server Statistics Channels
+- [x] Server Statistics **Channels**
 ## Commands
 - `/split` [channel] [team1] [team2] - Splits the members of the voice channel into two teams
 - `/roll` - Rolls a random number between 1 and 6

@@ -1,3 +1,4 @@
+from code import interact
 from attr import dataclass
 import discord
 import random
@@ -49,24 +50,27 @@ class MyView(discord.ui.View):
         self.team2_members = [member for member in team_2.members]
 
     @discord.ui.button(label="Split", row=0, style=discord.ButtonStyle.primary)
-    async def first_button_callback(self, button, interaction: discord.Interaction):
-        button.disabled = True
-        voice_channel_1 = interaction.guild.get_channel(1191113463272058880)
-        voice_channel_2 = interaction.guild.get_channel(1191113512722907267)
+    async def first_button_callback(self, button: discord.Button, interaction: discord.Interaction):
+        if not interaction.user.guild_permissions.administrator:
+            await interaction.response.send_message("You can't use this command", ephemeral=True)
+        else:
+            voice_channel_1 = interaction.guild.get_channel(1191113463272058880)
+            voice_channel_2 = interaction.guild.get_channel(1191113512722907267)
 
-        await voice_channel_1.edit(
-            name="Team " + self.team1.name, user_limit=len(self.team1.members)
-        )
-        await voice_channel_2.edit(
-            name="Team " + self.team2.name, user_limit=len(self.team2.members)
-        )
+            await voice_channel_1.edit(
+                name="Team " + self.team1.name, user_limit=len(self.team1.members)
+            )
+            await voice_channel_2.edit(
+                name="Team " + self.team2.name, user_limit=len(self.team2.members)
+            )
 
-        for member in self.team1_members:
-            await member.move_to(voice_channel_1)
-        for member in self.team2_members:
-            await member.move_to(voice_channel_2)
-        await interaction.response.edit_message(view=self)
-
+            for member in self.team1_members:
+                await member.move_to(voice_channel_1)
+            for member in self.team2_members:
+                await member.move_to(voice_channel_2)
+            await interaction.response.edit_message(view=self)
+            button.disabled = True
+        
     @discord.ui.button(label="Shuffle", row=0, style=discord.ButtonStyle.danger)
     async def second_button_callback(self, button, interaction):
         members = self.team1_members + self.team2_members
@@ -76,11 +80,11 @@ class MyView(discord.ui.View):
         embed = discord.Embed(title="**Splitted Teams**",
                               color=discord.Color.yellow())
         team1_string = "\n".join(
-            [":small_blue_diamond: ` - " + member.name +
+            [":small_blue_diamond: ` " + member.name +
                 "`" for member in self.team1_members]
         )
         team2_string = "\n".join(
-            [":small_orange_diamond:   ` - " + member.name +
+            [":small_orange_diamond:   ` " + member.name +
                 "`" for member in self.team2_members]
         )
         embed.add_field(name=f"**Team {self.team1.name}**", value=team1_string)
@@ -91,8 +95,10 @@ class MyView(discord.ui.View):
 
     @discord.ui.button(label="Cancel", row=0, style=discord.ButtonStyle.secondary)
     async def third_button_callback(self, button, interaction):
-        await interaction.response.edit_message(view=None)
-
+        if not interaction.user.guild_permissions.administrator:
+            await interaction.response.send_message("You can't use this command", ephemeral=True)
+        else:
+            await interaction.response.edit_message(view=None)
 
 def setup(bot):
     bot.add_cog(Split(bot))

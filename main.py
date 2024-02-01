@@ -93,7 +93,7 @@ async def on_member_remove():
     await MEMBER_COUNT_CHANNEL.edit(name=f"🥷︱Members - {member_count - 4}")
     await BOT_COUNT_CHANNEL.edit(name=f"🤖︱Bots - {4}")
 
-cog_list = ["split", "flip", "management"]
+cog_list = ["split", "management"]
 for cog in cog_list:
     bot.load_extension(f"cogs.{cog}")
 

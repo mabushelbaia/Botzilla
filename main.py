@@ -32,8 +32,9 @@ async def on_ready():
     await bot.change_presence(status=discord.Status.online, activity=discord.Activity(type=discord.ActivityType.playing, name="You!"))
     await update_members()
     member_count = len(GUILD.members)
-    await bot.get_channel(1192083973493510164).edit(name=f"🥷︱Members - {member_count - 4}")
-    await bot.get_channel(1192084004233556019).edit(name=f"🤖︱Bots - {4}")
+    bot_count = len([member for member in GUILD.members if member.bot])
+    await bot.get_channel(1192083973493510164).edit(name=f"🥷︱Members - {member_count - bot_count}")
+    await bot.get_channel(1192084004233556019).edit(name=f"🤖︱Bots - {bot_count}")
 
 
 
@@ -63,9 +64,9 @@ async def on_member_join(member):
         await member.add_roles(MEMBER_ROLE)
     
     member_count = len(GUILD.members)
-    print(member_count)
-    await bot.get_channel(1192083973493510164).edit(name=f"🥷︱Members - {member_count - 4}")
-    await bot.get_channel(1192084004233556019).edit(name=f"🤖︱Bots - {4}")
+    bot_count = len([member for member in GUILD.members if member.bot])
+    await bot.get_channel(1192083973493510164).edit(name=f"🥷︱Members - {member_count - bot_count}")
+    await bot.get_channel(1192084004233556019).edit(name=f"🤖︱Bots - {bot_count}")
 
 
 @bot.command()
@@ -90,8 +91,9 @@ async def test(ctx: commands.Context):
 @bot.event
 async def on_member_remove():
     member_count = len(GUILD.members)
-    await MEMBER_COUNT_CHANNEL.edit(name=f"🥷︱Members - {member_count - 4}")
-    await BOT_COUNT_CHANNEL.edit(name=f"🤖︱Bots - {4}")
+    bot_count = len([member for member in GUILD.members if member.bot])
+    await MEMBER_COUNT_CHANNEL.edit(name=f"🥷︱Members - {member_count - bot_count}")
+    await BOT_COUNT_CHANNEL.edit(name=f"🤖︱Bots - {bot_count}")
 
 cog_list = ["split", "management"]
 for cog in cog_list:

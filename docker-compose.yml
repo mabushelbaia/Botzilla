@@ -1,0 +1,8 @@
+version: "3"
+services:
+  bot:
+    build: .
+    volumes:
+      - .:/app  # Mount the current directory to /app inside the container
+    command: python bot.py
+    restart: always  # Restart the container if it crashes or stops
